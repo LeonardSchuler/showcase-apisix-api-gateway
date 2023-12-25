@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  apisix:
+    image: apache/apisix:3.7.0-debian
+    restart: always
+    volumes:
+      - ./conf/apisix.yaml:/usr/local/apisix/conf/apisix.yaml:ro
+    environment:
+      - APISIX_STAND_ALONE=true
+    ports:
+      - "9180:9180/tcp"
+      - "9080:9080/tcp"
+      - "9091:9091/tcp"
+      - "9443:9443/tcp"
+      - "9092:9092/tcp"
+    networks:
+      - intranet
+
+  web1:
+    image: nginx:1.19.0-alpine
+    restart: always
+    networks:
+      - intranet
+    volumes:
+      - ./conf/web1.conf:/etc/nginx/nginx.conf
+    ports:
+      - "9081:80/tcp"
+    environment:
+      - NGINX_PORT=80
+
+
+  web2:
+    image: nginx:1.19.0-alpine
+    restart: always
+    networks:
+      - intranet
+    volumes:
+      - ./conf/web2.conf:/etc/nginx/nginx.conf
+    ports:
+      - "9082:80/tcp"
+    environment:
+      - NGINX_PORT=80
+networks:
+  intranet:

@@ -1,0 +1,13 @@
+routes:
+  - uri: /web1
+    upstream:
+      nodes:
+        "web1:80": 1
+      type: roundrobin
+
+  - uri: /web2
+    upstream:
+      nodes:
+        "web2:80": 1
+      type: roundrobin
+#END
