@@ -97,13 +97,23 @@ ssls:
       - "localhost"
 
 routes:
-  - uri: /web1
+  - uri: /api/web1/*
+    plugins:
+      proxy-rewrite:
+        regex_uri:
+          - "^/(api)/web1/(.*)"
+          - "/$2"
     upstream:
       nodes:
         "web1:80": 1
       type: roundrobin
 
-  - uri: /web2
+  - uri: /api/web2/*
+    plugins:
+      proxy-rewrite:
+        regex_uri:
+          - "^/(api)/web2/(.*)"
+          - "/$2"
     upstream:
       nodes:
         "web2:80": 1
@@ -474,6 +484,7 @@ nginx_config: # Config for render the template to generate nginx.conf
 #   cmd: ["ls", "-l"]
 
 #plugins: # plugin list (sorted by priority)
+#  - proxy-rewrite # priority: 1008
 #  - real-ip # priority: 23000
 #  - ai # priority: 22900
 #  - client-control # priority: 22000
@@ -515,7 +526,6 @@ nginx_config: # Config for render the template to generate nginx.conf
 #  - proxy-cache # priority: 1085
 #  - body-transformer # priority: 1080
 #  - proxy-mirror # priority: 1010
-#  - proxy-rewrite # priority: 1008
 #  - workflow # priority: 1006
 #  - api-breaker # priority: 1005
 #  - limit-conn # priority: 1003
@@ -584,6 +594,7 @@ nginx_config: # Config for render the template to generate nginx.conf
 #   protocols:
 #     - name: pingpong
 #plugin_attr: # Plugin attributes
+
 #  log-rotate: # Plugin: log-rotate
 #    timeout: 10000 # maximum wait time for a log rotation(unit: millisecond)
 #    interval: 3600 # Set the log rotate interval in seconds.

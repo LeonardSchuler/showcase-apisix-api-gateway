@@ -21,6 +21,7 @@ services:
       - intranet
     volumes:
       - ./conf/web1.conf:/etc/nginx/nginx.conf
+      - ./logs/web1:/var/log/nginx
     ports:
       - "9081:80/tcp"
     environment:
@@ -34,6 +35,7 @@ services:
       - intranet
     volumes:
       - ./conf/web2.conf:/etc/nginx/nginx.conf
+      - ./logs/web2:/var/log/nginx
     ports:
       - "9082:80/tcp"
     environment:
